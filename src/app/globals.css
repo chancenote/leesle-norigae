@@ -1,0 +1,274 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #000000;
+  --color-white: #ffffff;
+  --color-gold: #b8945a;
+  --color-gold-light: #d4b880;
+  --color-charcoal: #2d2d2d;
+  --color-gray-light: #e5e5e5;
+  --color-gray-lighter: #f7f7f7;
+  --color-gray-muted: #999999;
+  --color-warm-white: #fafaf8;
+
+  --font-heading: "PT Sans", sans-serif;
+  --font-body: "Noto Sans KR", sans-serif;
+}
+
+/* ===== Calendar Grid ===== */
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+.cal-cell {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.cal-cell:hover:not(.disabled):not(.empty) {
+  background: var(--color-gray-lighter);
+  color: var(--color-primary);
+}
+
+.cal-cell.selected {
+  background: var(--color-primary);
+  color: var(--color-white);
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.cal-cell.disabled {
+  color: #d0d0d0;
+  cursor: default;
+  pointer-events: none;
+}
+
+.cal-cell.today:not(.selected) {
+  font-weight: 700;
+  color: var(--color-gold);
+}
+
+.cal-cell.today:not(.selected)::after {
+  content: "";
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--color-gold);
+}
+
+.cal-cell.empty {
+  pointer-events: none;
+}
+
+/* ===== Slot Card ===== */
+.slot-card {
+  border: 1.5px solid var(--color-gray-light);
+  border-radius: 0.75rem;
+  padding: 1.25rem 1rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-align: center;
+  background: var(--color-white);
+}
+
+.slot-card:hover:not(.full) {
+  border-color: var(--color-gold);
+  box-shadow: 0 2px 12px rgba(184, 148, 90, 0.12);
+  transform: translateY(-1px);
+}
+
+.slot-card.selected {
+  border-color: var(--color-primary);
+  background: var(--color-white);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.slot-card.selected::before {
+  content: "";
+  position: absolute;
+  top: -1.5px;
+  left: -1.5px;
+  right: -1.5px;
+  bottom: -1.5px;
+  border: 2px solid var(--color-primary);
+  border-radius: 0.75rem;
+  pointer-events: none;
+}
+
+.slot-card {
+  position: relative;
+}
+
+.slot-card.full {
+  opacity: 0.4;
+  cursor: default;
+  pointer-events: none;
+}
+
+/* ===== Stepper Buttons ===== */
+.stepper-btn {
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1.5px solid var(--color-gray-light);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.125rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: var(--color-white);
+  color: var(--color-charcoal);
+  user-select: none;
+  font-weight: 300;
+}
+
+.stepper-btn:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  background: var(--color-gray-lighter);
+}
+
+.stepper-btn:active {
+  transform: scale(0.92);
+}
+
+/* ===== Decorative Elements ===== */
+.deco-line {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.deco-line::before,
+.deco-line::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-gray-light),
+    transparent
+  );
+}
+
+.deco-diamond {
+  width: 6px;
+  height: 6px;
+  background: var(--color-gold);
+  transform: rotate(45deg);
+  flex-shrink: 0;
+}
+
+/* ===== Animations ===== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes checkmark-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes circle-fill {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.confirm-circle {
+  opacity: 0;
+  transform: scale(0.5);
+  animation: circle-fill 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.2s forwards;
+}
+
+.confirm-check {
+  stroke-dasharray: 30;
+  stroke-dashoffset: 30;
+  animation: checkmark-draw 0.4s ease-out 0.6s forwards;
+}
+
+/* ===== Focus Styles ===== */
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.06);
+}
+
+/* ===== Smooth section transitions ===== */
+.step-section {
+  animation: fadeInUp 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ===== Custom scrollbar (subtle) ===== */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-gray-light);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-gray-muted);
+}
