@@ -64,8 +64,23 @@ declare module "react-simple-maps" {
     "aria-label"?: string;
   }
 
+  interface MarkerProps {
+    coordinates: [number, number];
+    children?: ReactNode;
+    onMouseEnter?: (event: object) => void;
+    onMouseMove?: (event: object) => void;
+    onMouseLeave?: (event: object) => void;
+    onClick?: (event: object) => void;
+    style?: {
+      default?: CSSProperties;
+      hover?: CSSProperties;
+      pressed?: CSSProperties;
+    };
+  }
+
   export const ComposableMap: ComponentType<ComposableMapProps>;
   export const ZoomableGroup: ComponentType<ZoomableGroupProps>;
   export const Geographies: ComponentType<GeographiesProps>;
   export const Geography: ComponentType<GeographyProps>;
+  export const Marker: ComponentType<MarkerProps>;
 }

@@ -5,9 +5,10 @@ import {
   ComposableMap,
   Geographies,
   Geography,
+  Marker,
   ZoomableGroup,
 } from "react-simple-maps";
-import { exportCountrySet, getCountryByIso3 } from "@/data/exportCountries";
+import exportCountries from "@/data/exportCountries";
 import type { ExportCountry } from "@/data/exportCountries";
 
 const GEO_URL = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
@@ -21,23 +22,18 @@ interface TooltipData {
 function WorldMap() {
   const [tooltip, setTooltip] = useState<TooltipData | null>(null);
 
-  const handleMouseEnter = useCallback(
-    (iso3: string, evt: React.MouseEvent) => {
-      const country = getCountryByIso3(iso3);
-      if (country) {
-        setTooltip({ country, x: evt.clientX, y: evt.clientY });
-      }
+  const handleMarkerEnter = useCallback(
+    (country: ExportCountry, evt: React.MouseEvent) => {
+      setTooltip({ country, x: evt.clientX, y: evt.clientY });
     },
     []
   );
 
   const handleMouseMove = useCallback(
     (evt: React.MouseEvent) => {
-      if (tooltip) {
-        setTooltip((prev) => (prev ? { ...prev, x: evt.clientX, y: evt.clientY } : null));
-      }
+      setTooltip((prev) => (prev ? { ...prev, x: evt.clientX, y: evt.clientY } : null));
     },
-    [tooltip]
+    []
   );
 
   const handleMouseLeave = useCallback(() => {
@@ -56,53 +52,69 @@ function WorldMap() {
         style={{ width: "100%", height: "auto" }}
       >
         <ZoomableGroup center={[0, 20]} zoom={1}>
+          {/* Base map countries */}
           <Geographies geography={GEO_URL}>
             {({ geographies }) =>
-              geographies.map((geo) => {
-                const iso3 = geo.properties?.ISO_A3 || geo.id;
-                const isExport = exportCountrySet.has(iso3);
-                const countryData = isExport ? getCountryByIso3(iso3) : null;
-
-                return (
-                  <Geography
-                    key={geo.rsmKey}
-                    geography={geo}
-                    onMouseEnter={(evt) => {
-                      if (isExport) handleMouseEnter(iso3, evt as unknown as React.MouseEvent);
-                    }}
-                    onMouseMove={(evt) => {
-                      if (isExport) handleMouseMove(evt as unknown as React.MouseEvent);
-                    }}
-                    onMouseLeave={handleMouseLeave}
-                    style={{
-                      default: {
-                        fill: isExport ? "#b8945a" : "#2a2a3a",
-                        stroke: "#1a1a2e",
-                        strokeWidth: 0.5,
-                        outline: "none",
-                        transition: "fill 0.2s ease",
-                      },
-                      hover: {
-                        fill: isExport ? "#d4b880" : "#2a2a3a",
-                        stroke: isExport ? "#fff" : "#1a1a2e",
-                        strokeWidth: isExport ? 1.5 : 0.5,
-                        outline: "none",
-                        cursor: isExport ? "pointer" : "default",
-                      },
-                      pressed: {
-                        fill: isExport ? "#d4b880" : "#2a2a3a",
-                        outline: "none",
-                      },
-                    }}
-                    aria-label={countryData ? `${countryData.nameKo} (${countryData.nameEn})` : undefined}
-                  />
-                );
-              })
+              geographies.map((geo) => (
+                <Geography
+                  key={geo.rsmKey}
+                  geography={geo}
+                  style={{
+                    default: {
+                      fill: "#E8E5E0",
+                      stroke: "#d0cdc6",
+                      strokeWidth: 0.5,
+                      outline: "none",
+                    },
+                    hover: {
+                      fill: "#ddd9d0",
+                      stroke: "#d0cdc6",
+                      strokeWidth: 0.5,
+                      outline: "none",
+                    },
+                    pressed: {
+                      fill: "#ddd9d0",
+                      outline: "none",
+                    },
+                  }}
+                />
+              ))
             }
           </Geographies>
+
+          {/* Pin markers */}
+          {exportCountries.map((country) => (
+            <Marker
+              key={country.iso2}
+              coordinates={country.coords}
+              onMouseEnter={(evt) => handleMarkerEnter(country, evt as unknown as React.MouseEvent)}
+              onMouseMove={(evt) => handleMouseMove(evt as unknown as React.MouseEvent)}
+              onMouseLeave={handleMouseLeave}
+            >
+              {/* Pin drop shadow */}
+              <ellipse
+                cx={0}
+                cy={2}
+                rx={3}
+                ry={1.5}
+                fill="rgba(0,0,0,0.15)"
+              />
+              {/* Pin body */}
+              <g className="map-pin" transform="translate(-4, -12)">
+                <path
+                  d="M4 0C1.8 0 0 1.8 0 4c0 3.2 4 8 4 8s4-4.8 4-8c0-2.2-1.8-4-4-4z"
+                  fill="#009CA6"
+                  stroke="#fff"
+                  strokeWidth={0.8}
+                />
+                <circle cx={4} cy={4} r={1.8} fill="#fff" />
+              </g>
+            </Marker>
+          ))}
         </ZoomableGroup>
       </ComposableMap>
 
+      {/* Tooltip */}
       {tooltip && (
         <div
           className="map-tooltip"
