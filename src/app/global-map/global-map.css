@@ -1,0 +1,374 @@
+/* ===== Global Map Page ===== */
+.gmap-page {
+  min-height: 100vh;
+  background: #0f0f1a;
+  color: #e8e8e8;
+  font-family: "Noto Sans KR", sans-serif;
+  overflow-x: hidden;
+}
+
+/* Header */
+.gmap-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: rgba(15, 15, 26, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(184, 148, 90, 0.15);
+}
+
+.gmap-header-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.gmap-logo {
+  font-family: "PT Sans", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #b8945a;
+  text-decoration: none;
+  letter-spacing: 2px;
+}
+
+.gmap-nav-badge {
+  font-size: 0.75rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #999;
+  border: 1px solid rgba(184, 148, 90, 0.3);
+  padding: 0.35rem 0.85rem;
+  border-radius: 9999px;
+}
+
+/* Hero */
+.gmap-hero {
+  padding: 8rem 2rem 3rem;
+  text-align: center;
+}
+
+.gmap-hero-inner {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.gmap-hero-label {
+  font-family: "PT Sans", sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #b8945a;
+  margin-bottom: 1.25rem;
+}
+
+.gmap-hero-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1.35;
+  margin-bottom: 1.25rem;
+  color: #fff;
+}
+
+.gmap-gold {
+  color: #b8945a;
+  font-size: 3rem;
+}
+
+.gmap-hero-desc {
+  font-size: 1rem;
+  line-height: 1.75;
+  color: #aaa;
+}
+
+/* Map Section */
+.gmap-map-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem 2rem;
+}
+
+.map-container {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  background: radial-gradient(ellipse at center, #16162a 0%, #0f0f1a 70%);
+  box-shadow:
+    0 0 60px rgba(184, 148, 90, 0.08),
+    0 4px 32px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(184, 148, 90, 0.1);
+}
+
+.map-container svg {
+  display: block;
+}
+
+/* Loading */
+.map-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 500px;
+  gap: 1rem;
+  color: #888;
+}
+
+.map-loading-spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid rgba(184, 148, 90, 0.2);
+  border-top-color: #b8945a;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+/* Tooltip */
+.map-tooltip {
+  position: fixed;
+  z-index: 1000;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(20, 20, 35, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(184, 148, 90, 0.35);
+  border-radius: 12px;
+  padding: 12px 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  animation: tooltipIn 0.15s ease-out;
+  transform: translateY(-50%);
+}
+
+@keyframes tooltipIn {
+  from {
+    opacity: 0;
+    transform: translateY(-50%) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(-50%) scale(1);
+  }
+}
+
+.tooltip-flag {
+  flex-shrink: 0;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  line-height: 0;
+}
+
+.tooltip-flag img {
+  display: block;
+  width: 60px;
+  height: 40px;
+  object-fit: cover;
+}
+
+.tooltip-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.tooltip-name-ko {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.tooltip-name-en {
+  font-size: 0.8rem;
+  color: #b8945a;
+  font-family: "PT Sans", sans-serif;
+}
+
+.tooltip-continent {
+  font-size: 0.7rem;
+  color: #888;
+  margin-top: 2px;
+}
+
+/* Stats */
+.gmap-stats {
+  padding: 3rem 2rem 4rem;
+}
+
+.gmap-stats-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.gmap-stats-title {
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: #ccc;
+  margin-bottom: 2rem;
+}
+
+.gmap-stats-grid {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.gmap-stat-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(184, 148, 90, 0.12);
+  border-radius: 12px;
+  padding: 1.25rem 1.75rem;
+  min-width: 110px;
+  transition: all 0.25s ease;
+}
+
+.gmap-stat-card:hover {
+  background: rgba(184, 148, 90, 0.08);
+  border-color: rgba(184, 148, 90, 0.3);
+  transform: translateY(-2px);
+}
+
+.gmap-stat-emoji {
+  font-size: 1.5rem;
+}
+
+.gmap-stat-count {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #b8945a;
+  font-family: "PT Sans", sans-serif;
+}
+
+.gmap-stat-label {
+  font-size: 0.85rem;
+  color: #aaa;
+}
+
+/* Country List */
+.gmap-countries {
+  padding: 2rem 2rem 5rem;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.gmap-countries-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.gmap-countries-title {
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: #ccc;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.gmap-countries-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 10px;
+}
+
+.gmap-country-chip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: all 0.2s ease;
+}
+
+.gmap-country-chip:hover {
+  background: rgba(184, 148, 90, 0.1);
+  border-color: rgba(184, 148, 90, 0.25);
+  transform: translateX(4px);
+}
+
+.gmap-country-chip img {
+  border-radius: 3px;
+  flex-shrink: 0;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+.gmap-country-name {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #e0e0e0;
+}
+
+.gmap-country-en {
+  font-size: 0.75rem;
+  color: #888;
+  font-family: "PT Sans", sans-serif;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+/* Footer */
+.gmap-footer {
+  text-align: center;
+  padding: 2rem;
+  font-size: 0.8rem;
+  color: #555;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .gmap-hero-title {
+    font-size: 1.75rem;
+  }
+
+  .gmap-gold {
+    font-size: 2.25rem;
+  }
+
+  .gmap-hero-desc br {
+    display: none;
+  }
+
+  .gmap-stats-grid {
+    gap: 0.75rem;
+  }
+
+  .gmap-stat-card {
+    min-width: 90px;
+    padding: 1rem 1.25rem;
+  }
+
+  .gmap-countries-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .gmap-hero {
+    padding-top: 6rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .gmap-hero-title {
+    font-size: 1.35rem;
+  }
+
+  .gmap-gold {
+    font-size: 1.75rem;
+  }
+
+  .gmap-header-inner {
+    padding: 0.85rem 1rem;
+  }
+}
